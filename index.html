@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://ssl.gstatic.com/docs/script/css/add-ons1.css"
+    />
+  </head>
+  <body>
+    <h1>
+      EMR implementations
+    </h1>
+    <div class="dashboard"></div>
+    <script>
+      // List of implementations
+      var implementations = [
+        {
+          name: "Amman",
+          repository:
+            "https://raw.githubusercontent.com/bahmni-msf/amman-config/master/openmrs/apps/home/extension.json"
+        },
+        {
+          name: "Iraq",
+          repository:
+            "https://raw.githubusercontent.com/bahmni-msf/iraq-config/master/openmrs/apps/home/extension.json"
+        },
+        {
+          name: "Bangladesh",
+          repository:
+            "https://raw.githubusercontent.com/DWB-eHealth/bangladesh-config/master/openmrs/apps/home/extension.json"
+        }
+      ];
+
+      for (let i in implementations) {
+        fetchImplementation(implementations[i]);
+      }
+
+      function fetchImplementation(implementation) {
+        $.getJSON(implementation.repository, function fetchImplementation(
+          data
+        ) {
+          $(".dashboard").append(`<h1>${implementation.name}</h1>`);
+          for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+              $(".dashboard").append(
+                `<li>Module: ${modules(data[key].id)}</li>`
+              );
+            }
+          }
+        });
+      }
+
+      function modules(id) {
+        // List of modules
+        var modules = [
+          {
+            id: "bahmni.registration",
+            name: "Registration"
+          },
+          {
+            id: "bahmni.programs",
+            name: "Programs"
+          },
+          {
+            id: "bahmni.admin",
+            name: "Admin"
+          },
+          {
+            id: "bahmni.reports",
+            name: "Reports"
+          },
+          {
+            id: "bahmni.radiology.document.upload",
+            name: "Radiology Document Upload"
+          },
+          {
+            id: "bahmni.patient.document.upload",
+            name: "Patient Document Upload"
+          },
+          {
+            id: "bahmni.ipd",
+            name: "IPD"
+          },
+          {
+            id: "bahmni.ot",
+            name: "Operation Theater"
+          },
+          {
+            id: "bahmni.appointment.scheduling",
+            name: "Appointment Scheduling"
+          },
+          {
+            id: "Reports",
+            name: "Reports"
+          },
+          {
+            id: "bahmni.pharmacy",
+            name: "Pharmacy"
+          },
+          {
+            id: "bahmni.print.forms",
+            name: "Print Forms"
+          },
+          {
+            id: "bahmni.implementer.interface",
+            name: "Implementer Interface"
+          },
+          {
+            id: "bahmni.clinical",
+            name: "Clinical"
+          }
+        ];
+        const nameExists = modules.some((modules) => modules.id === id);
+        if (nameExists) {
+          const item = modules.find((item) => item.id === id);
+          return item.name;
+        } else {
+          return id;
+        }
+      }
+    </script>
+  </body>
+</html>
